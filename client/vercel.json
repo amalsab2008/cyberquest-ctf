@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://cyberquest-backend.onrender.com/api/:path*"
+    },
+    {
+      "source": "/simulation/:path*",
+      "destination": "https://cyberquest-backend.onrender.com/simulation/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
