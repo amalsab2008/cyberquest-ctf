@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://cyberquest-backend.onrender.com/api/:path*"
+      "destination": "https://cyberquest-backend-qnow.onrender.com/api/:path*"
     },
     {
       "source": "/simulation/:path*",
-      "destination": "https://cyberquest-backend.onrender.com/simulation/:path*"
+      "destination": "https://cyberquest-backend-qnow.onrender.com/simulation/:path*"
     },
     {
       "source": "/(.*)",
