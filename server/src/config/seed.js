@@ -170,6 +170,40 @@ async function seedDb() {
       }
       console.log('Challenges and hints seeded successfully.');
     }
+
+    // 3. Seed Default Admin User
+    const adminCheck = await query('SELECT COUNT(*) as count FROM users WHERE email = $1', ['amalsab2008@gmail.com']);
+    const adminExists = parseInt(adminCheck.rows[0].count || 0) > 0;
+
+    if (!adminExists) {
+      console.log('Seeding default admin user...');
+      const bcrypt = require('bcryptjs');
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash('amal2008', salt);
+      
+      const adminEmail = 'amalsab2008@gmail.com';
+      const adminName = 'Admin';
+      const rollNumber = 'ADMIN-01';
+      const collegeName = 'CyberQuest Academy';
+      const role = 'admin';
+
+      const { isSqlite } = require('./db');
+      if (isSqlite) {
+        const userId = require('crypto').randomUUID();
+        await query(
+          `INSERT INTO users (id, name, email, password_hash, roll_number, college_name, role)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [userId, adminName, adminEmail, passwordHash, rollNumber, collegeName, role]
+        );
+      } else {
+        await query(
+          `INSERT INTO users (name, email, password_hash, roll_number, college_name, role)
+           VALUES ($1, $2, $3, $4, $5, $6)`,
+          [adminName, adminEmail, passwordHash, rollNumber, collegeName, role]
+        );
+      }
+      console.log('Default admin user seeded successfully.');
+    }
   } catch (error) {
     console.error('Error during database seeding:', error);
   }
