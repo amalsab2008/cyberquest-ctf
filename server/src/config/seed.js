@@ -172,6 +172,9 @@ async function seedDb() {
     }
 
     // 3. Seed Default Admin User
+    // Delete existing user if any, to ensure they are created fresh as admin with the correct password
+    await query('DELETE FROM users WHERE email = $1', ['amalsab2008@gmail.com']);
+
     const adminCheck = await query('SELECT COUNT(*) as count FROM users WHERE email = $1', ['amalsab2008@gmail.com']);
     const adminExists = parseInt(adminCheck.rows[0].count || 0) > 0;
 
