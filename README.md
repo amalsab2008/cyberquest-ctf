@@ -128,7 +128,7 @@ To access the **Admin Console** (editing challenges, inspecting logs, exporting 
 - **Flag**: `cyberquest{ex1f_d4t4_r3v34ls_all}`
 
 ### Challenge 4: The Emperor's Shift (Cryptography - 100 pts)
-- **Clue**: Shift key is 13 (ROT13) for cipher `ploredrfg{pnrfne_pvcure_vf_pynffvp}`.
+- **Clue**: Shift key is 13 (ROT13) for cipher `ploredhrfg{pnrfne_pvcure_vf_pynffvp}`.
 - **Solution**: Open the **Caesar Shift Decrypter** tool in the Learning Hub. Paste the text, set the shift to `13`, and inspect output.
 - **Flag**: `cyberquest{caesar_cipher_is_classic}`
 

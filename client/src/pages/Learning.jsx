@@ -409,7 +409,7 @@ const Learning = () => {
               <textarea
                 value={caesarInput}
                 onChange={(e) => { setCaesarInput(e.target.value); handleCaesar(e.target.value, caesarShift); }}
-                placeholder="Type cipher or cleartext (e.g., ploredrfg)"
+                placeholder="Type cipher or cleartext (e.g., ploredhrfg)"
                 className="w-full h-24 p-3 rounded bg-black/50 border border-zinc-800 text-white focus:border-cyber-green focus:outline-none text-xs"
               />
             </div>
