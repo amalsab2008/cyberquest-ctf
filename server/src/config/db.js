@@ -262,17 +262,6 @@ async function initDb() {
   `;
 
   try {
-    if (!isSqlite) {
-      // Drop tables with legacy incorrect types to force correct creation
-      await query('DROP TABLE IF EXISTS unlocked_hints CASCADE;');
-      await query('DROP TABLE IF EXISTS user_badges CASCADE;');
-      await query('DROP TABLE IF EXISTS hints CASCADE;');
-      await query('DROP TABLE IF EXISTS badges CASCADE;');
-      await query('DROP TABLE IF EXISTS solves CASCADE;');
-      await query('DROP TABLE IF EXISTS submissions CASCADE;');
-      await query('DROP TABLE IF EXISTS challenges CASCADE;');
-    }
-
     await query(usersTable);
     await query(challengesTable);
     await query(hintsTable);
