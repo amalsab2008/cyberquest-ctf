@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const { initDb } = require('./config/db');
 const { seedDb } = require('./config/seed');
 const { generateHackerAvatar } = require('./utils/imageGenerator');
@@ -42,7 +43,12 @@ app.use('/api/*', (req, res) => {
 
 // For frontend SPA routing in production
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  const indexPath = path.join(__dirname, '..', 'public', 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.json({ status: 'OK', message: 'CyberQuest CTF API is running' });
+  }
 });
 
 // Global error handler
