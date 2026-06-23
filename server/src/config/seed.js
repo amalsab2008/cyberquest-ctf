@@ -120,7 +120,7 @@ async function seedDb() {
         {
           id: '443ad5a4-ee44-42f0-97ee-3b006a8f15bc',
           title: "The Emperor's Shift",
-          description: 'We intercepted a note written by a hacker who claims to be using the classic Caesar Cipher. It appears they shifted the characters of their message by 13 spaces. Can you decrypt this string?\n\nCiphertext:\n```\nploredh3fg{pnrfne_pvcure_vf_pynffvp}\n```',
+          description: 'We intercepted a note written by a hacker who claims to be using the classic Caesar Cipher. It appears they shifted the characters of their message by 13 spaces. Can you decrypt this string?\n\nCiphertext:\n```\nploredrfg{pnrfne_pvcure_vf_pynffvp}\n```',
           points: 100,
           category: 'Cryptography',
           difficulty: 'Easy',
