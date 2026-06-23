@@ -27,6 +27,12 @@ const Leaderboard = () => {
 
   useEffect(() => {
     fetchLeaderboard();
+
+    const interval = setInterval(() => {
+      fetchLeaderboard();
+    }, 10000); // Auto-refresh every 10 seconds
+
+    return () => clearInterval(interval);
   }, []);
 
   const formatSolveTime = (timeStr) => {
