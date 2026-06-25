@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Shield, Trophy, Terminal, BookOpen, User, Settings, LogOut } from 'lucide-react';
+import { Shield, Trophy, Terminal, BookOpen, User, Settings, LogOut, Award } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -69,6 +69,16 @@ const Navbar = () => {
               >
                 <BookOpen className="h-4 w-4" />
                 <span className="hidden md:inline">Learning</span>
+              </Link>
+
+              <Link 
+                to="/certificate" 
+                className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-mono transition-colors ${
+                  isActive('/certificate') ? 'text-cyber-green bg-cyber-green/10' : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <Award className="h-4 w-4" />
+                <span className="hidden md:inline">Certificate</span>
               </Link>
 
               <Link 

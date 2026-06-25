@@ -89,6 +89,61 @@ const Admin = () => {
     }
   };
 
+  const handleExportAttendanceCSV = () => {
+    try {
+      if (!participants || participants.length === 0) {
+        alert('No participants found to export.');
+        return;
+      }
+
+      // Sort participants alphabetically by name
+      const sortedParticipants = [...participants].sort((a, b) => 
+        (a.name || '').localeCompare(b.name || '', undefined, { sensitivity: 'base' })
+      );
+
+      // Generate a structured report header
+      const now = new Date();
+      const formattedTimestamp = now.toISOString().replace('T', ' ').substring(0, 19);
+      
+      let csvContent = "";
+      csvContent += `REPORT: CYBERQUEST CTF WORKSHOP ATTENDANCE\n`;
+      csvContent += `GENERATED ON: ${formattedTimestamp} (Local Time: ${now.toLocaleString()})\n`;
+      csvContent += `TOTAL ATTENDEES: ${sortedParticipants.length}\n`;
+      csvContent += `================================================================================\n\n`;
+      
+      // Define uppercase column headers
+      csvContent += "FULL NAME,EMAIL ADDRESS,COLLEGE / INSTITUTION,ROLL NUMBER,SCORE (PTS),REGISTRATION TIMESTAMP\n";
+      
+      // Populate rows with clean and escaped data
+      sortedParticipants.forEach(part => {
+        const name = `"${(part.name || 'N/A').replace(/"/g, '""')}"`;
+        const email = `"${(part.email || 'N/A').replace(/"/g, '""')}"`;
+        const college = `"${(part.college_name || 'N/A').replace(/"/g, '""')}"`;
+        const roll = `"${(part.roll_number || 'N/A').replace(/"/g, '""')}"`;
+        const score = part.score || 0;
+        
+        let regTimestamp = 'N/A';
+        if (part.created_at) {
+          const d = new Date(part.created_at);
+          regTimestamp = d.toISOString().replace('T', ' ').substring(0, 19);
+        }
+        
+        csvContent += `${name},${email},${college},${roll},${score},${regTimestamp}\n`;
+      });
+      
+      // Create blob and download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `cyberquest_attendance_report_${Date.now()}.csv`;
+      a.click();
+    } catch (e) {
+      console.error(e);
+      alert('Error exporting attendance CSV.');
+    }
+  };
+
   const handleCreateChallenge = async (e) => {
     e.preventDefault();
     setFormError('');
@@ -240,12 +295,20 @@ const Admin = () => {
         </div>
 
         {/* Toolbar actions */}
-        <div className="flex gap-3 w-full sm:w-auto">
+        <div className="flex flex-wrap gap-3 w-full sm:w-auto">
           <button
             onClick={handleExportCSV}
             className="py-2 px-4 rounded border border-zinc-800 text-zinc-300 hover:border-cyber-green hover:text-cyber-green transition-all flex items-center gap-2 text-xs font-mono font-bold"
           >
             <Download className="h-4 w-4" /> EXPORT SCOREBOARD
+          </button>
+
+          <button
+            onClick={handleExportAttendanceCSV}
+            className="py-2 px-4 rounded border border-zinc-800 text-zinc-350 hover:border-cyber-green hover:text-cyber-green transition-all flex items-center gap-2 text-xs font-mono font-bold"
+            title="Download full list of registered participants"
+          >
+            <Download className="h-4 w-4 text-cyber-green" /> EXPORT ATTENDANCE
           </button>
           
           <button

@@ -12,6 +12,7 @@ import Challenges from './pages/Challenges';
 import Leaderboard from './pages/Leaderboard';
 import Learning from './pages/Learning';
 import Profile from './pages/Profile';
+import Certificate from './pages/Certificate';
 import Admin from './pages/Admin';
 
 // Protected Route Guard (Must be logged in)
@@ -93,6 +94,12 @@ const AppContent = () => {
           <Route path="/profile" element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/certificate" element={
+            <ProtectedRoute>
+              <Certificate />
             </ProtectedRoute>
           } />
 
