@@ -30,7 +30,7 @@ const Leaderboard = () => {
 
     const interval = setInterval(() => {
       fetchLeaderboard();
-    }, 10000); // Auto-refresh every 10 seconds
+    }, 30000); // Auto-refresh every 30 seconds
 
     return () => clearInterval(interval);
   }, []);
