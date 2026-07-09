@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { User, School, Hash, Mail, Award, CheckCircle, Download, FileSpreadsheet, ShieldAlert } from 'lucide-react';
+import { jsPDF } from 'jspdf';
 
 const Profile = () => {
   const { user } = useAuth();
@@ -158,10 +159,13 @@ const Profile = () => {
     // 9. Export image and trigger download
     setTimeout(() => {
       const dataUrl = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = `cyberquest_cert_${user.name.toLowerCase().replace(/ /g, '_')}.png`;
-      link.href = dataUrl;
-      link.click();
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+      pdf.addImage(dataUrl, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.save(`cyberquest_cert_${user.name.toLowerCase().replace(/ /g, '_')}.pdf`);
       setCertGenerating(false);
     }, 1000);
   };

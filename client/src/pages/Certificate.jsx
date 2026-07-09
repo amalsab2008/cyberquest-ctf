@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { FileText, Download, CheckCircle2, Lock, Unlock, ExternalLink, ShieldAlert, Award } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { jsPDF } from 'jspdf';
 
 const Certificate = () => {
   const { user } = useAuth();
@@ -50,8 +51,8 @@ const Certificate = () => {
 
     img.onload = () => {
       // Set canvas to match the template's exact high-res dimensions
-      canvas.width = 1024;
-      canvas.height = 724;
+      canvas.width = 1280;
+      canvas.height = 905;
 
       // 1. Draw the base template image
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -62,21 +63,21 @@ const Certificate = () => {
       ctx.textAlign = 'center';
       
       // Load Serif font (Georgia/Times New Roman)
-      let fontSize = 38;
+      let fontSize = 48;
       ctx.font = `bold ${fontSize}px Georgia, "Times New Roman", serif`;
 
-      // 3. Dynamic Font Scaling: Ensure name fits perfectly within the bounds (600px max width)
+      // 3. Dynamic Font Scaling: Ensure name fits perfectly within the bounds (725px max width)
       const participantName = user.name.toUpperCase();
       let textWidth = ctx.measureText(participantName).width;
       
-      while (textWidth > 580 && fontSize > 16) {
+      while (textWidth > 725 && fontSize > 20) {
         fontSize -= 2;
         ctx.font = `bold ${fontSize}px Georgia, "Times New Roman", serif`;
         textWidth = ctx.measureText(participantName).width;
       }
 
-      // 4. Draw the participant's name centered exactly above the underline (y=444 is line, so y=428)
-      ctx.fillText(participantName, 512, 428);
+      // 4. Draw the participant's name centered exactly above the underline (y=555 is line, so y=535)
+      ctx.fillText(participantName, 640, 535);
 
       setImageLoaded(true);
       setCanvasError(false);
@@ -94,10 +95,14 @@ const Certificate = () => {
     const canvas = canvasRef.current;
     const dataUrl = canvas.toDataURL('image/png');
     
-    const link = document.createElement('a');
-    link.download = `cyberquest_participation_cert_${user.name.toLowerCase().replace(/ /g, '_')}.png`;
-    link.href = dataUrl;
-    link.click();
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'px',
+      format: [canvas.width, canvas.height]
+    });
+    
+    pdf.addImage(dataUrl, 'PNG', 0, 0, canvas.width, canvas.height);
+    pdf.save(`cyberquest_participation_cert_${user.name.toLowerCase().replace(/ /g, '_')}.pdf`);
   };
 
   if (!user) {
@@ -211,13 +216,13 @@ const Certificate = () => {
                   />
 
                   {/* Scaled down preview canvas shown to the user */}
-                  <div className="w-full max-w-lg border border-zinc-800 rounded-lg overflow-hidden shadow-2xl bg-black relative aspect-[1024/724]">
+                  <div className="w-full max-w-lg border border-zinc-800 rounded-lg overflow-hidden shadow-2xl bg-black relative aspect-[1280/905]">
                     {/* Rendered HTML5 Canvas output as preview */}
                     {imageLoaded ? (
                       <canvas 
                         id="preview-canvas"
-                        width="1024"
-                        height="724"
+                        width="1280"
+                        height="905"
                         ref={(el) => {
                           if (!el || !canvasRef.current) return;
                           const ctx = el.getContext('2d');
@@ -252,7 +257,7 @@ const Certificate = () => {
                 }`}
               >
                 <Download className="h-4 w-4" />
-                Download High-Res Certificate
+                Download PDF Certificate
               </button>
             </div>
 
