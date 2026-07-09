@@ -57,13 +57,13 @@ const Certificate = () => {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       // 2. Configure Text Styling for Participant's Name
-      // We use a beautiful purple that matches the Cyber Quest certificate branding
-      ctx.fillStyle = '#6c5ce7'; 
+      // We use a beautiful serif font (Georgia/Times New Roman) and dark charcoal color
+      ctx.fillStyle = '#2d2d2d'; 
       ctx.textAlign = 'center';
       
-      // Load 'Outfit' or fallback to sans-serif
-      let fontSize = 36;
-      ctx.font = `bold ${fontSize}px "Outfit", "Segoe UI", sans-serif`;
+      // Load Serif font (Georgia/Times New Roman)
+      let fontSize = 38;
+      ctx.font = `bold ${fontSize}px Georgia, "Times New Roman", serif`;
 
       // 3. Dynamic Font Scaling: Ensure name fits perfectly within the bounds (600px max width)
       const participantName = user.name.toUpperCase();
@@ -71,12 +71,12 @@ const Certificate = () => {
       
       while (textWidth > 580 && fontSize > 16) {
         fontSize -= 2;
-        ctx.font = `bold ${fontSize}px "Outfit", "Segoe UI", sans-serif`;
+        ctx.font = `bold ${fontSize}px Georgia, "Times New Roman", serif`;
         textWidth = ctx.measureText(participantName).width;
       }
 
-      // 4. Draw the participant's name centered exactly above the underline (y=444 is line, so y=430)
-      ctx.fillText(participantName, 512, 430);
+      // 4. Draw the participant's name centered exactly above the underline (y=444 is line, so y=428)
+      ctx.fillText(participantName, 512, 428);
 
       setImageLoaded(true);
       setCanvasError(false);
