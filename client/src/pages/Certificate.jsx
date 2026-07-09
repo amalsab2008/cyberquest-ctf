@@ -51,28 +51,21 @@ const Certificate = () => {
     img.onload = () => {
       // Set canvas to match the template's exact high-res dimensions
       canvas.width = 1024;
-      canvas.height = 723;
+      canvas.height = 724;
 
       // 1. Draw the base template image
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // 2. Erase the placeholder "NAME" text
-      // The word "NAME" is located from X:455-560 and Y:416-443 on the 1024x723 image.
-      // The background in this area is pure black (#000000).
-      // We paint a black rectangle over the area to erase it cleanly.
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(200, 395, 624, 55); // Wide enough to cover long names, high enough to cover the word "NAME"
-
-      // 3. Configure Text Styling for Participant's Name
-      // We use a vibrant green that matches the CTF accent (#39b54a or #00ff66)
-      ctx.fillStyle = '#39b54a'; 
+      // 2. Configure Text Styling for Participant's Name
+      // We use a beautiful purple that matches the Cyber Quest certificate branding
+      ctx.fillStyle = '#6c5ce7'; 
       ctx.textAlign = 'center';
       
       // Load 'Outfit' or fallback to sans-serif
       let fontSize = 36;
       ctx.font = `bold ${fontSize}px "Outfit", "Segoe UI", sans-serif`;
 
-      // 4. Dynamic Font Scaling: Ensure name fits perfectly within the bounds (600px max width)
+      // 3. Dynamic Font Scaling: Ensure name fits perfectly within the bounds (600px max width)
       const participantName = user.name.toUpperCase();
       let textWidth = ctx.measureText(participantName).width;
       
@@ -82,8 +75,8 @@ const Certificate = () => {
         textWidth = ctx.measureText(participantName).width;
       }
 
-      // 5. Draw the participant's name centered exactly where the placeholder was
-      ctx.fillText(participantName, 512, 436);
+      // 4. Draw the participant's name centered exactly above the underline (y=444 is line, so y=430)
+      ctx.fillText(participantName, 512, 430);
 
       setImageLoaded(true);
       setCanvasError(false);
@@ -218,13 +211,13 @@ const Certificate = () => {
                   />
 
                   {/* Scaled down preview canvas shown to the user */}
-                  <div className="w-full max-w-lg border border-zinc-800 rounded-lg overflow-hidden shadow-2xl bg-black relative aspect-[1024/723]">
+                  <div className="w-full max-w-lg border border-zinc-800 rounded-lg overflow-hidden shadow-2xl bg-black relative aspect-[1024/724]">
                     {/* Rendered HTML5 Canvas output as preview */}
                     {imageLoaded ? (
                       <canvas 
                         id="preview-canvas"
                         width="1024"
-                        height="723"
+                        height="724"
                         ref={(el) => {
                           if (!el || !canvasRef.current) return;
                           const ctx = el.getContext('2d');
