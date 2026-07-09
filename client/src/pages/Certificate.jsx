@@ -57,26 +57,31 @@ const Certificate = () => {
       // 1. Draw the base template image
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // 2. Configure Text Styling for Participant's Name
-      // We use a beautiful serif font (Georgia/Times New Roman) and dark charcoal color
-      ctx.fillStyle = '#2d2d2d'; 
+      // 2. Erase the 'Name' placeholder printed on the template
+      // The placeholder is located around X: 560-719, Y: 492-543
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(550, 485, 180, 60);
+
+      // 3. Configure Text Styling for Participant's Name
+      // We use the modern Outfit font and the lavender color #8685e3
+      ctx.fillStyle = '#8685e3'; 
       ctx.textAlign = 'center';
       
-      // Load Serif font (Georgia/Times New Roman)
+      // Load Outfit font
       let fontSize = 48;
-      ctx.font = `bold ${fontSize}px Georgia, "Times New Roman", serif`;
+      ctx.font = `bold ${fontSize}px "Outfit", sans-serif`;
 
-      // 3. Dynamic Font Scaling: Ensure name fits perfectly within the bounds (725px max width)
-      const participantName = user.name.toUpperCase();
+      // 4. Dynamic Font Scaling: Ensure name fits perfectly within the bounds (725px max width)
+      const participantName = user.name;
       let textWidth = ctx.measureText(participantName).width;
       
       while (textWidth > 725 && fontSize > 20) {
         fontSize -= 2;
-        ctx.font = `bold ${fontSize}px Georgia, "Times New Roman", serif`;
+        ctx.font = `bold ${fontSize}px "Outfit", sans-serif`;
         textWidth = ctx.measureText(participantName).width;
       }
 
-      // 4. Draw the participant's name centered exactly above the underline (y=555 is line, so y=535)
+      // 5. Draw the participant's name centered exactly above the underline (y=555 is line, so y=535)
       ctx.fillText(participantName, 640, 535);
 
       setImageLoaded(true);
